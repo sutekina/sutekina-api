@@ -1,0 +1,19 @@
+{
+    "application": {
+        "name": "sutekina-api",
+        "version": "1.0.0",
+        "port": 4001
+    },
+    "mysql": {
+        "user": "sutekina",
+        "host": "localhost",
+        "password": "N)6(-?L!jN",
+        "port": "3306",
+        "database": "osu"
+    },
+    "debug": {
+        "file_level": "trace",
+        "file_dir": "/logs/",
+        "terminal_level": "debug"
+    }
+}
