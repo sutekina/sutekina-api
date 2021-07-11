@@ -1,6 +1,6 @@
 import winston from "winston";
 import path from "path";
-import { debug } from "../../config.json";
+import { debug } from "../../../config.json";
 
 const colors: winston.config.AbstractConfigSetColors = {
     fatal: "bold red",
@@ -8,7 +8,7 @@ const colors: winston.config.AbstractConfigSetColors = {
     warn: "yellow",
     info: "green",
     debug: "cyan",
-    trace: "magenta"
+    verbose: "magenta"
 }
 
 const levels: winston.config.AbstractConfigSetLevels = {
@@ -17,7 +17,7 @@ const levels: winston.config.AbstractConfigSetLevels = {
     warn: 2,
     info: 3,
     debug: 4,
-    trace: 5
+    verbose: 5
 }
 let staticLogger: winston.Logger;
 export = ((): winston.Logger => {
@@ -39,7 +39,7 @@ export = ((): winston.Logger => {
                 }),
                 new winston.transports.File({
                     level: debug.file_level,
-                    filename: path.join(__dirname, "../../..", debug.file_dir, `${new Date().toISOString()}.log`),
+                    filename: path.join(__dirname, "../../../..", debug.file_dir, `${new Date().toISOString()}.log`),
                     format: winston.format.combine(
                         winston.format.errors({stack:true}),
                         winston.format.timestamp(),
