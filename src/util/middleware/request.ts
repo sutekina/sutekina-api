@@ -1,5 +1,5 @@
 import express from "express";
-import clock from "../clock";
+import clock from "../time/clock";
 import logging from "../logging";
 
 export = (req: express.Request, res: express.Response, next: express.NextFunction) => {

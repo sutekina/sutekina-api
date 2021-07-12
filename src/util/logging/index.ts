@@ -3,7 +3,6 @@ import path from "path";
 import { debug } from "../../../config.json";
 
 const colors: winston.config.AbstractConfigSetColors = {
-    fatal: "bold red",
     error: "red",
     warn: "yellow",
     info: "green",
@@ -12,12 +11,11 @@ const colors: winston.config.AbstractConfigSetColors = {
 }
 
 const levels: winston.config.AbstractConfigSetLevels = {
-    fatal: 0,
-    error: 1,
-    warn: 2,
-    info: 3,
-    debug: 4,
-    verbose: 5
+    error: 0,
+    warn: 1,
+    info: 2,
+    debug: 3,
+    verbose: 4
 }
 let staticLogger: winston.Logger;
 export = ((): winston.Logger => {
