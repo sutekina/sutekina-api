@@ -26,9 +26,7 @@ export = class User {
                             `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
                             `WHERE ss.pp_${mod}_${mode} > s.pp_${mod}_${mode} AND uu.country = u.country AND uu.priv >= 1) ` +
                             `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE safe_name = ? AND u.priv >= 3 ORDER BY globalRank;`;
-
             const parameters = [identifier];
-
             logging.verbose(query, {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, (err, res, fields) => {
                 if(err) return reject(err);
@@ -37,6 +35,3 @@ export = class User {
         });
     }
 }
-
-// export type mod = "vn" | "ap" | "rx";
-// export type mode = "std" | "taiko" | "catch" | "mania";
