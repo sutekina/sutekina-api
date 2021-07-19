@@ -15,7 +15,7 @@ export = class SutekinaApi {
         SutekinaApi.application.disable('case sensitive routing');
         SutekinaApi.application.disable('strict routing');
         SutekinaApi.application.disable('x-powered-by');
-        SutekinaApi.application.set('etag', false);
+        SutekinaApi.application.set('etag', 'strong');
 
         SutekinaApi.application.listen(port, () => {
             logging.info(`${name ? name : "sutekina-api"} is running on ${port}`);

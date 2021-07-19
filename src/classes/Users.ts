@@ -18,7 +18,7 @@ export = class Users extends Array {
                 `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp_${mod}_${mode} > s.pp_${mod}_${mode} ` +
                 `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
                 `WHERE ss.pp_${mod}_${mode} > s.pp_${mod}_${mode} AND uu.country = u.country AND uu.priv >= 1) ` +
-                `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.priv >= 3 ORDER BY pp LIMIT ?, ?;`;
+                `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.priv >= 3 ORDER BY globalRank LIMIT ?, ?;`;
             const parameters = [offset, limit];
             logging.verbose(query, {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, (err, res, fields) => {
