@@ -22,8 +22,8 @@ const modeNumbers = {
 export function queryMatch(query: any, orderRgx?: RegExp): QueryOptions {
     if(query.beatmapStatus) query.beatmapStatus = parseInt(query.beatmapStatus, 10);
     if(query.scoreStatus) query.scoreStatus = parseInt(query.scoreStatus, 10);
-    
-    // not the most elegant solution, should reject request if this is the mode but if someone has mods rx and mode mania then mode = std and if mods ap and mode maniataikocatch then mode = std; 
+
+    // not the most elegant solution, should reject request if this is the mode but if someone has mods rx and mode mania then mode = std and if mods ap and mode maniataikocatch then mode = std;
     query.mode = (query.mod === "rx" && query.mode === "mania") || (query.mod === "ap" && query.mode.toString().match(/^(mania|taiko|catch)$/)) ? "std" : query.mode;
 
     const match: QueryOptions = {};

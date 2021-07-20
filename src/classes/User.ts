@@ -15,22 +15,29 @@ export = class User {
     public creationTime: number;
 
     constructor(user: User | any) {
-        Object.assign(this, user[0] ? user[0] : user);
+        Object.assign(this, user);
     }
 
-    public static find = (identifier: string, mod: string, mode: string) => {
+    public static find = (identifier: string, mod: string, mode: string, identifierType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
             const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.creation_time creationTime, s.playtime_${mod}_${mode} ` +
                             `playtime, s.plays_${mod}_${mode} playcount, s.pp_${mod}_${mode} pp, s.acc_${mod}_${mode} accuracy, ` +
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp_${mod}_${mode} > s.pp_${mod}_${mode} ` +
                             `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
                             `WHERE ss.pp_${mod}_${mode} > s.pp_${mod}_${mode} AND uu.country = u.country AND uu.priv >= 1) ` +
-                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE safe_name = ? AND u.priv >= 3 ORDER BY globalRank;`;
+                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.${identifierType} = ? AND u.priv >= 3 ORDER BY globalRank;`;
+
             const parameters = [identifier];
             logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
-            SutekinaApi.mysql.execute(query, parameters, (err, res, fields) => {
+            SutekinaApi.mysql.execute(query, parameters, async (err, res, fields) => {
                 if(err) return reject(err);
-                resolve(new User(res));
+
+                let user: any = res;
+                user = user[0] ? user[0] : user;
+
+                if(!user.userId && identifierType !== "safe_name") user = await User.find(identifier, mod, mode, "safe_name");
+
+                resolve(new User(user));
             });
         });
     }
