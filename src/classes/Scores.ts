@@ -28,7 +28,7 @@ export = class Scores extends Array {
                 if(err) return reject(err);
                 let scores: any = res;
                 if(!scores[0] && filter === "user" && idType !== "safe_name") scores = await Scores.getAll(filter, filterId, options, "safe_name");
-                resolve(new Scores(res));
+                resolve(new Scores(scores));
             });
         });
     };

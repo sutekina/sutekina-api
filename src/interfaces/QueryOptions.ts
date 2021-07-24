@@ -9,7 +9,8 @@ export interface QueryOptions {
     limit?: string,
     offset?: string,
     beatmapStatus?: string, // -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5
-    scoreStatus?: string // 0 | 1 | 2
+    scoreStatus?: string, // 0 | 1 | 2
+    country?: string
 }
 
 const modeNumbers = {
@@ -37,6 +38,7 @@ export function queryMatch(query: any, orderRgx?: RegExp): QueryOptions {
     match.offset = (parseInt(query.offset, 10) ? parseInt(query.offset.toString(), 10) : 0).toString();
     match.beatmapStatus = (query.beatmapStatus >= -2 && query.beatmapStatus <= 5 ? query.beatmapStatus : 2).toString();
     match.scoreStatus = (query.scoreStatus >= 0 && query.scoreStatus <= 2 ? query.scoreStatus : 1).toString();
+    match.country = query.country && query.country.length === 2 ? query.country.toString().toLowerCase() : undefined;
 
     return match;
 }
