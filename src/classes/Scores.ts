@@ -13,7 +13,7 @@ export = class Scores extends Array {
 
     public static getAll = (filter: "beatmap" | "user" | "all", filterId: string | null, options: QueryOptions, idType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
-            const query =   `SELECT s.id scoreId, m.id beatmapId, m.set_id beatmapsetId, score, pp, acc accuracy, s.max_combo maxCombo, ` +
+            const query =   `SELECT s.id scoreId, m.id beatmapId, m.set_id beatmapSetId, score, pp, acc accuracy, s.max_combo maxCombo, ` +
                             `mods, n300 hits300, n100 hits100, n50 hits50, nmiss hitsMiss, grade, s.status, ` +
                             `s.mode, play_time playtime, time_elapsed timeElapsed, client_flags clientFlags, userid userId, perfect ` +
                             `FROM osu.scores_${options.mod} s JOIN osu.maps m ON s.map_md5 = m.md5 JOIN osu.users u ON s.userid = u.id ` +
