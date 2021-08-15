@@ -13,6 +13,10 @@ export = class Scores extends Array {
 
     public static getAll = (filter: "beatmap" | "user" | "all", filterId: string | null, options: QueryOptions, idType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
+            // shitty code.
+            // for best plays just set s.status = 2;
+            // ${(options.distinct ? `NOT EXISTS (SELECT * FROM scores_${options.mod} uwu WHERE uwu.userId = 3 AND ` +
+            //                 `s.map_md5 = uwu.map_md5 AND s.pp < uwu.pp) AND ` : "")}
             const query =   `SELECT s.id scoreId, m.id beatmapId, m.set_id beatmapSetId, score, pp, acc accuracy, s.max_combo maxCombo, ` +
                             `mods, n300 hits300, n100 hits100, n50 hits50, nmiss hitsMiss, grade, s.status, ` +
                             `s.mode, play_time playtime, time_elapsed timeElapsed, client_flags clientFlags, userid userId, perfect ` +
@@ -35,7 +39,6 @@ export = class Scores extends Array {
 }
 
 const filterQueryBuilder = (filter: string, idType: string): string => {
-
     switch(filter) {
         case "beatmap":
             return "m.id = ? AND";

@@ -8,13 +8,17 @@ import users from "./users";
 import clans from "./clans";
 
 const router = Router();
-
-router.get("/", (req, res, next) => {
-    res.json({"message":`${application.name}-v2`, "code":200})
-});
-beatmaps(router);
-beatmapsets(router);
-users(router);
-clans(router);
+try {
+    router.get("/", (req, res, next) => {
+        res.json({"message":`${application.name}-v2`, "code":200})
+    });
+    beatmaps(router);
+    beatmapsets(router);
+    users(router);
+    clans(router);
+} catch(err) {
+    err.level = err.level || "error";
+    router.use((req, res, next) => next(err));
+}
 
 export = router;

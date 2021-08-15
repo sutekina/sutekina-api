@@ -16,7 +16,7 @@ export interface QueryOptions {
 const modeNumbers = {
     std: "0",
     taiko: "1",
-    ctb: "2",
+    catch: "2",
     mania: "3"
 }
 

@@ -4,8 +4,8 @@ export = class SutekinaError extends Error {
 
     constructor(message: string, level: string, code: number, stack?: string) {
         super(message);
-        this.level = level;
-        this.code = code;
+        this.level = level || "error";
+        this.code = code || 500;
         if(stack) this.stack = stack;
     }
 }
