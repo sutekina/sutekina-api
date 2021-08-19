@@ -9,7 +9,7 @@ export = (router: express.Router) => {
         const options: QueryOptions = queryMatch(req.query, {}, /^(userId|name|country|privilege|playcount|pp|accuracy|globalRank|countryRank|playtime|creationTime)$/);
 
         if(!req.params.user) return res.json(await Users.getAll(options));
-        res.json(await User.find(req.params.user.toLowerCase(), options.mod, options.mode));
+        res.json(await User.find(req.params.user.toLowerCase(), options));
     });
 
     router.get("/users/:user/scores", async (req, res, next) => {

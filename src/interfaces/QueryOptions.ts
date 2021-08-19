@@ -10,7 +10,8 @@ export interface QueryOptions {
     offset?: string,
     beatmapStatus?: string, // -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5
     scoreStatus?: string, // 0 | 1 | 2
-    country?: string
+    country?: string,
+    modMode?: number
 }
 
 const modeNumbers = {
@@ -18,6 +19,19 @@ const modeNumbers = {
     taiko: "1",
     catch: "2",
     mania: "3"
+}
+
+const modModes: any = {
+    vn_std: 0,
+    vn_taiko: 1,
+    vn_catch: 2,
+    vn_mania: 3,
+
+    rx_std: 4,
+    rx_taiko: 5,
+    rx_catch: 6,
+
+    ap_std: 7
 }
 
 export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp): QueryOptions {
@@ -39,6 +53,7 @@ export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp
     match.beatmapStatus = (query.beatmapStatus >= -2 && query.beatmapStatus <= 5 ? query.beatmapStatus : -2).toString();
     match.scoreStatus = (query.scoreStatus >= 0 && query.scoreStatus <= 2 ? query.scoreStatus : 0).toString();
     match.country = query.country && query.country.length === 2 ? query.country.toString().toLowerCase() : undefined;
+    match.modMode = modModes[`${match.mod}_${match.mode}`];
 
     return match;
 }
