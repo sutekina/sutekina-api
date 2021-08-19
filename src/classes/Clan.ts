@@ -22,9 +22,9 @@ export = class Clan {
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp > s.pp AND ss.mode = s.mode ` +
                             `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
                             `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 1) ` +
-                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.priv >= 3 AND u.clan_id = ? AND u.clan_id != 0 AND s.mode = ${modMode} ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?; `;
+                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.priv >= 3 AND s.mode = ? AND u.clan_id = ? AND u.clan_id != 0 ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?; `;
 
-                            const parameters = [identifier, offset, limit];
+            const parameters = [modMode, identifier, offset, limit];
             logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, async (err, res: any, fields) => {
                 if(err) return reject(err);

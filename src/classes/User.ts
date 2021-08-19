@@ -25,14 +25,15 @@ export = class User {
 
     public static find = (identifier: string, {mod, mode, modMode}: QueryOptions, identifierType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
+            logging.info(modMode);
             const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.clan_id clanId, u.creation_time creationTime, s.playtime ` +
                             `playTime, s.tscore totalScore, s.rscore rankedScore, s.max_combo maxCombo, s.plays playCount, s.pp pp, s.acc accuracy, ` +
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp > s.pp AND ss.mode = s.mode ` +
                             `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
                             `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 1) ` +
-                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.${identifierType} = ? AND u.priv >= 3 ORDER BY globalRank;`;
+                            `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE s.mode = ? AND u.${identifierType} = ? AND u.priv >= 3 ORDER BY globalRank;`;
 
-            const parameters = [identifier];
+            const parameters = [modMode, identifier];
             logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, async (err, res, fields) => {
                 if(err) return reject(err);
