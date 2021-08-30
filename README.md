@@ -15,4 +15,8 @@ npm install
 # starting it:
 
 npm run start
+
+# NOTES:
+# - you should configure the config!
+# - for permission issues either run with sudo or use "sudo chown -R <user> .", preferably do the latter.
 ```
