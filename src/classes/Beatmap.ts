@@ -32,7 +32,7 @@ export = class Beatmap {
         Object.assign(this, beatmap);
     }
 
-    public static find = (identifier: string, {beatmapStatus}: QueryOptions) => {
+    public static get = (identifier: string, {beatmapStatus}: QueryOptions) => {
         return new Promise((resolve, reject) => {
             let query = `SELECT id beatmapId, set_id beatmapSetId, status beatmapStatus, md5 beatmapMd5, artist, title, version, creator, last_update lastUpdate, total_length totalLength, max_combo maxCombo, frozen, plays playCount, passes, mode, bpm, ar approachRate, cs circleSize, od overallDifficulty, hp healthPoints, diff difficultyRating FROM maps WHERE id = ? AND status >= ?;`;
             let parameters = [identifier, beatmapStatus];
