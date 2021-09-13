@@ -15,7 +15,7 @@ export = class Clan {
         Object.assign(this, clan);
     }
 
-    public static findMembers(identifier: string, {mod, mode, limit, offset, order, ascending, modMode}: QueryOptions) {
+    public static getMembers(identifier: string, {mod, mode, limit, offset, order, ascending, modMode}: QueryOptions) {
         return new Promise((resolve, reject) => {
             const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.clan_id clanId, u.creation_time creationTime, s.playtime ` +
                             `playTime, s.tscore totalScore, s.rscore rankedScore, s.max_combo maxCombo, s.plays playCount, s.pp pp, s.acc accuracy, ` +
@@ -33,7 +33,7 @@ export = class Clan {
         });
     };
 
-    public static find(identifier: string) {
+    public static get(identifier: string) {
         return new Promise((resolve, reject) => {
             const query = `SELECT c.id clanId, c.name, c.tag, c.owner userId, c.created_at createdAt, (SELECT COUNT(*) FROM users u WHERE priv >= 3 AND u.clan_id = c.id) members FROM osu.clans c WHERE c.id = ?;`;
             const parameters = [identifier];

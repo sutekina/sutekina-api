@@ -23,7 +23,7 @@ export = class User {
         Object.assign(this, user);
     }
 
-    public static find = (identifier: string, {mod, mode, modMode}: QueryOptions, identifierType: "id" | "safe_name" = "id") => {
+    public static get = (identifier: string, {mod, mode, modMode}: QueryOptions, identifierType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
             logging.info(modMode);
             const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.clan_id clanId, u.creation_time creationTime, s.playtime ` +
@@ -41,7 +41,7 @@ export = class User {
                 let user: any = res;
                 user = user[0] ? user[0] : user;
 
-                if(!user.userId && identifierType !== "safe_name") user = await User.find(identifier, {mod, mode, modMode}, "safe_name");
+                if(!user.userId && identifierType !== "safe_name") user = await User.get(identifier, {mod, mode, modMode}, "safe_name");
 
                 resolve(new User(user));
             });

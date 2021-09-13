@@ -12,7 +12,7 @@ export = class Clans extends Array {
         return this[0];
     }
 
-    public static getAll = ({limit, offset, order, ascending}: QueryOptions) => {
+    public static getList = ({limit, offset, order, ascending}: QueryOptions) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT c.id clanId, c.name, c.tag, c.owner userId, c.created_at createdAt, (SELECT COUNT(*) FROM users u WHERE priv >= 3 AND u.clan_id = c.id) members FROM osu.clans c ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?;`;
             const parameters = [offset, limit];

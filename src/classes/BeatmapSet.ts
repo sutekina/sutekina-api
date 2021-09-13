@@ -10,7 +10,7 @@ export = class BeatmapSet extends Array {
         beatmapSet.forEach((beatmap, i) => this[i] = beatmap);
     }
 
-    public static find = (identifier: string, {beatmapStatus}: QueryOptions) => {
+    public static get = (identifier: string, {beatmapStatus}: QueryOptions) => {
         return new Promise((resolve, reject) => {
             const query = `SELECT id beatmapId, set_id beatmapSetId, status beatmapStatus, md5 beatmapMd5, artist, title, version, creator, last_update lastUpdate, total_length totalLength, max_combo maxCombo, frozen, plays playCount, passes, mode, bpm, , ar approachRate, cs circleSize, od overallDifficulty, hp healthPoints, diff difficultyRating FROM maps WHERE set_id = ? AND status >= ?;`;
             const parameters = [identifier, beatmapStatus];
@@ -22,7 +22,7 @@ export = class BeatmapSet extends Array {
         });
     }
 
-    public static getAll = ({order, ascending, beatmapStatus, offset, limit}: QueryOptions) => {
+    public static getList = ({order, ascending, beatmapStatus, offset, limit}: QueryOptions) => {
         return new Promise((resolve, reject) => {
             // you could count versions but it is really bad for performance "(SELECT count(id) FROM maps mm WHERE mm.set_id = m.set_id) versions"
             // the performance is so bad that i would never do this, this is at least log(n2) and at worst probably log(n^2) or worse depending on version count, the higher the limit the worse it gets.

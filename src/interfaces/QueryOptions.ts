@@ -11,6 +11,7 @@ export interface QueryOptions {
     beatmapStatus?: string, // -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5
     scoreStatus?: string, // 0 | 1 | 2
     country?: string,
+    hasPlayed?: boolean,
     modMode?: number
 }
 
@@ -53,6 +54,7 @@ export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp
     match.beatmapStatus = (query.beatmapStatus >= -2 && query.beatmapStatus <= 5 ? query.beatmapStatus : -2).toString();
     match.scoreStatus = (query.scoreStatus >= 0 && query.scoreStatus <= 2 ? query.scoreStatus : 0).toString();
     match.country = query.country && query.country.length === 2 ? query.country.toString().toLowerCase() : undefined;
+    match.hasPlayed = query.hasPlayed === "true" ? true : false;
     match.modMode = modModes[`${match.mod}_${match.mode}`];
 
     return match;

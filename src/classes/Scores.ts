@@ -11,7 +11,7 @@ export = class Scores extends Array {
         return this[1];
     }
 
-    public static getAll = (filter: "beatmap" | "user" | "all", filterId: string | null, options: QueryOptions, idType: "id" | "safe_name" = "id") => {
+    public static getList = (filter: "beatmap" | "user" | "all", filterId: string | null, options: QueryOptions, idType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
             // shitty code.
             // for best plays just set s.status = 2;
@@ -31,7 +31,7 @@ export = class Scores extends Array {
             SutekinaApi.mysql.execute(query, parameters, async (err, res, fields) => {
                 if(err) return reject(err);
                 let scores: any = res;
-                if(!scores[0] && filter === "user" && idType !== "safe_name") scores = await Scores.getAll(filter, filterId, options, "safe_name");
+                if(!scores[0] && filter === "user" && idType !== "safe_name") scores = await Scores.getList(filter, filterId, options, "safe_name");
                 resolve(new Scores(scores));
             });
         });
