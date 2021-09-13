@@ -12,14 +12,35 @@ export = class Clans extends Array {
         return this[0];
     }
 
-    public static getList = ({limit, offset, order, ascending}: QueryOptions) => {
+    // counting members is kinda inefficient since it scales pretty bad but oh well.
+    public static getList = ({limit, offset, order, ascending, search}: QueryOptions) => {
         return new Promise((resolve, reject) => {
-            const query = `SELECT c.id clanId, c.name, c.tag, c.owner userId, c.created_at createdAt, (SELECT COUNT(*) FROM users u WHERE priv >= 3 AND u.clan_id = c.id) members FROM osu.clans c ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?;`;
+            const query =   `SELECT c.id clanId, c.name, c.tag, c.owner userId, c.created_at createdAt, ` +
+                            `(SELECT COUNT(*) FROM users u WHERE priv >= 3 AND u.clan_id = c.id) members ` +
+                            `FROM osu.clans c ${search ? `WHERE concat(c.name, c.tag) LIKE ? ESCAPE '\\\\' ` : ""}` +
+                            `ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?;`;
+
             const parameters = [offset, limit];
+            if(search) parameters.unshift(search);
             logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, (err, res: any, fields) => {
                 if(err) return reject(err);
                 resolve(new Clans(res));
+            });
+        });
+    }
+
+    public static count = ({search}: QueryOptions) => {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT COUNT(*) as count FROM osu.clans c ${search ? `WHERE concat(c.name, c.tag) LIKE ? ESCAPE '\\\\'` : ""}`;
+
+            const parameters = [];
+            if(search) parameters[0] = search;
+
+            logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
+            SutekinaApi.mysql.execute(query, parameters, (err, res: any[], fields) => {
+                if(err) return reject(err);
+                resolve(res[0].count);
             });
         });
     }

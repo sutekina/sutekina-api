@@ -12,7 +12,8 @@ export interface QueryOptions {
     scoreStatus?: string, // 0 | 1 | 2
     country?: string,
     hasPlayed?: boolean,
-    modMode?: number
+    modMode?: number,
+    search?: string
 }
 
 const modeNumbers = {
@@ -56,7 +57,12 @@ export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp
     match.country = query.country && query.country.length === 2 ? query.country.toString().toLowerCase() : undefined;
     match.hasPlayed = query.hasPlayed === "true" ? true : false;
     match.modMode = modModes[`${match.mod}_${match.mode}`];
+    match.search = query.search ? `%${query.search.toString().replace(/(\\)|([\[\]%_])/g, searchReplacer)}%` : undefined;
 
     return match;
 }
 
+function searchReplacer(match: string, p1: string, p2: string, offset: number, original: string) {
+    if(p1) return "";
+    if(p2) return `\\${p2}`
+}

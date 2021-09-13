@@ -5,9 +5,13 @@ import { QueryOptions, queryMatch } from "../../interfaces/QueryOptions";
 
 export = (router: express.Router) => {
     router.get("/clans/:clan?", async (req, res, next) => {
-        if(!req.query.ascending) req.query.ascending = "true";
         const options: QueryOptions = queryMatch(req.query, {order: "clanId"}, /^(clanId|name|tag|userId|createdAt|members)$/);
-        if(!req.params.clan) return res.json(await Clans.getList(options));
+
+        if(!req.params.clan) return res.json({
+            count: await Clans.count(options),
+            results: await Clans.getList(options)
+        });
+
         res.json(await Clan.get(req.params.clan));
     });
 
