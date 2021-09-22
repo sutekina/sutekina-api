@@ -20,7 +20,7 @@ export = class Scores extends Array {
             const query =   `SELECT s.id scoreId, m.id beatmapId, m.set_id beatmapSetId, score, pp, acc accuracy, s.max_combo maxCombo, ` +
                             `mods, n300 hits300, n100 hits100, n50 hits50, nmiss hitsMiss, grade, s.status, ` +
                             `s.mode, play_time playtime, time_elapsed timeElapsed, client_flags clientFlags, userid userId, perfect ` +
-                            `FROM osu.scores_${options.mod} s JOIN osu.maps m ON s.map_md5 = m.md5 JOIN osu.users u ON s.userid = u.id ` +
+                            `FROM scores_${options.mod} s JOIN maps m ON s.map_md5 = m.md5 JOIN users u ON s.userid = u.id ` +
                             `WHERE ${filterQueryBuilder(filter, idType)} s.mode = ? AND s.status >= ? AND m.status >= ? AND u.priv >= 3 ` +
                             `ORDER BY ${options.order} ${(options.ascending) ? "ASC" : "DESC"} LIMIT ?, ?;`;
 

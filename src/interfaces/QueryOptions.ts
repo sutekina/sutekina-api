@@ -63,6 +63,6 @@ export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp
 }
 
 function searchReplacer(match: string, p1: string, p2: string, offset: number, original: string) {
-    if(p1) return "";
+    if(p1) return "\\\\";
     if(p2) return `\\${p2}`
 }

@@ -14,6 +14,7 @@ export = class User {
     public countryRank: number;
     public playTime: number;
     public creationTime: number;
+    public latestActivity: number;
     public totalScore: number;
     public rankedScore: number;
     public maxCombo: number;
@@ -25,8 +26,7 @@ export = class User {
 
     public static get = (identifier: string, {mod, mode, modMode}: QueryOptions, identifierType: "id" | "safe_name" = "id") => {
         return new Promise((resolve, reject) => {
-            logging.info(modMode);
-            const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.clan_id clanId, u.creation_time creationTime, s.playtime ` +
+            const query =   `SELECT u.id userId, u.name, u.country, u.priv privilege, u.clan_id clanId, u.creation_time creationTime, u.latest_activity latestActivity, s.playtime ` +
                             `playTime, s.tscore totalScore, s.rscore rankedScore, s.max_combo maxCombo, s.plays playCount, s.pp pp, s.acc accuracy, ` +
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp > s.pp AND ss.mode = s.mode ` +
                             `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +

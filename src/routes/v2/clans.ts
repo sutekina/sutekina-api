@@ -12,7 +12,7 @@ export = (router: express.Router) => {
             results: await Clans.getList(options)
         });
 
-        res.json(await Clan.get(req.params.clan));
+        res.json(await Clan.get(req.params.clan, options));
     });
 
     router.get("/clans/:clan/members", async (req, res, next) => {

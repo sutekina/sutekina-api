@@ -6,13 +6,12 @@ import Beatmap from "./Beatmap";
 export = class BeatmapSet extends Array {
     constructor(beatmapSet: Beatmap[] | any[]) {
         super(beatmapSet.length);
-
         beatmapSet.forEach((beatmap, i) => this[i] = beatmap);
     }
 
     public static get = (identifier: string, {beatmapStatus}: QueryOptions) => {
         return new Promise((resolve, reject) => {
-            const query = `SELECT id beatmapId, set_id beatmapSetId, status beatmapStatus, md5 beatmapMd5, artist, title, version, creator, last_update lastUpdate, total_length totalLength, max_combo maxCombo, frozen, plays playCount, passes, mode, bpm, , ar approachRate, cs circleSize, od overallDifficulty, hp healthPoints, diff difficultyRating FROM maps WHERE set_id = ? AND status >= ?;`;
+            const query = `SELECT id beatmapId, set_id beatmapSetId, status beatmapStatus, md5 beatmapMd5, artist, title, version, creator, last_update lastUpdate, total_length totalLength, max_combo maxCombo, frozen, plays playCount, passes, mode, bpm, ar approachRate, cs circleSize, od overallDifficulty, hp healthPoints, diff difficultyRating FROM maps WHERE set_id = ? AND status >= ?;`;
             const parameters = [identifier, beatmapStatus];
             logging.verbose(SutekinaApi.mysql.format(query, parameters), {query, parameters});
             SutekinaApi.mysql.execute(query, parameters, async (err, res: any, fields) => {
