@@ -11,6 +11,9 @@
         "port": 3306,
         "database": "osu"
     },
+    "authentication": {
+        "osu": "your-osu-api-key"
+    },
     "debug": {
         "file_level": "trace",
         "file_dir": "/logs/",
