@@ -15,5 +15,8 @@
         "file_level": "trace",
         "file_dir": "/logs/",
         "terminal_level": "debug"
+    },
+    "authentication": {
+        "osu": "OSU-API-KEY"
     }
 }

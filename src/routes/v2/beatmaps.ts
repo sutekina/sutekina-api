@@ -14,6 +14,12 @@ export = (router: express.Router) => {
     router.get("/beatmaps/:beatmap/scores", async (req, res, next) => {
         const options: QueryOptions = queryMatch(req.query, {}, /^(scoreId|beatmapMd5|score|pp|accuracy|maxCombo|mods|hits300|hits100|hits50|hitsMiss|grade|status|mode|playtime|timeElapsed|clientFlags|userId|perfect)$/)
 
-        res.json(await Scores.getList("beatmap", req.params.beatmap, options));
+        res.json(await Scores.getList({beatmap: {active: true, value: req.params.beatmap}, user: {active: false, value: null}}, options));
+    });
+
+    router.get("/beatmaps/:beatmap/scores/user/:user", async (req, res, next) => {
+        const options: QueryOptions = queryMatch(req.query, {}, /^(scoreId|beatmapMd5|score|pp|accuracy|maxCombo|mods|hits300|hits100|hits50|hitsMiss|grade|status|mode|playtime|timeElapsed|clientFlags|userId|perfect)$/)
+
+        res.json(await Scores.getList({beatmap: {active: true, value: req.params.beatmap}, user: {active: true, value: req.params.user.toLowerCase()}}, options));
     });
 };

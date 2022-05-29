@@ -50,7 +50,7 @@ export function queryMatch(query: any, base: {order?: string}, orderRgx?: RegExp
     match.modeNumber = objectLookup(match.mode, modeNumbers);
     match.order = query.order && query.order.toString().match(orderRgx || /x^/) ? query.order.toString() : base.order || "pp";
     match.ascending = query.ascending === "true" ? true : false;
-    match.limit = (parseInt(query.limit, 10) && parseInt(query.limit, 10) <= 100 ? parseInt(query.limit.toString(), 10) : 10).toString();
+    match.limit = (parseInt(query.limit, 10) !== undefined && parseInt(query.limit, 10) <= 100 ? parseInt(query.limit.toString(), 10) : 10).toString();
     match.offset = (parseInt(query.offset, 10) ? parseInt(query.offset.toString(), 10) : 0).toString();
     match.beatmapStatus = (query.beatmapStatus >= -2 && query.beatmapStatus <= 5 ? query.beatmapStatus : -2).toString();
     match.scoreStatus = (query.scoreStatus >= 0 && query.scoreStatus <= 2 ? query.scoreStatus : 0).toString();
