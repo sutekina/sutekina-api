@@ -18,8 +18,8 @@ export = class Users extends Array {
                             `playTime, s.tscore totalScore, s.rscore rankedScore, s.max_combo maxCombo, s.plays playCount, s.pp pp, s.acc accuracy, ` +
                             `s.xh_count countXH, s.x_count countX, s.sh_count countSH, s.s_count countS, s.a_count countA, ` +
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp > s.pp AND ss.mode = s.mode ` +
-                            `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
-                            `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 1) ` +
+                            `AND uu.priv >= 3) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
+                            `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 3) ` +
                             `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE u.priv >= 3 ${country ? `AND u.country = ?` : ""} ${search ? `AND u.name LIKE ? ESCAPE '\\\\'` : ""} ${hasPlayed ? `AND s.plays > 0` : ""} AND s.mode = ? ORDER BY ${order} ${(ascending) ? "ASC" : "DESC"}, playCount ${(ascending) ? "ASC" : "DESC"} LIMIT ?, ?; `;
 
             const parameters = [modMode, offset, limit];

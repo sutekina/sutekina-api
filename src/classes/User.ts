@@ -36,8 +36,8 @@ export = class User {
                             `playTime, s.tscore totalScore, s.rscore rankedScore, s.max_combo maxCombo, s.plays playCount, s.pp pp, s.acc accuracy, ` +
                             `s.xh_count gradesXH, s.x_count gradesX, s.sh_count gradesSH, s.s_count gradesS, s.a_count gradesA, ` +
                             `(SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) WHERE ss.pp > s.pp AND ss.mode = s.mode ` +
-                            `AND uu.priv & 1) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
-                            `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 1) ` +
+                            `AND uu.priv >= 3) AS globalRank, (SELECT COUNT(*)+1 FROM stats ss JOIN users uu USING(id) ` +
+                            `WHERE ss.pp > s.pp AND ss.mode = s.mode AND uu.country = u.country AND uu.priv >= 3) ` +
                             `AS countryRank FROM stats s JOIN users u ON s.id = u.id WHERE s.mode = ? AND u.${identifierType} = ? AND u.priv >= 3 ORDER BY globalRank;`;
 
             const parameters = [modMode, identifier];
